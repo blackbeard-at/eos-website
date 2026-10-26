@@ -1,0 +1,53 @@
+---
+import Accordion from './Accordion.astro';
+import { panels } from '../data/site';
+---
+
+<section class="leistungen" id="leistungen">
+  <div class="container leistungen__grid">
+    <div class="leistungen__intro" data-anim="ltr">
+      <h2 class="badge">Unsere Leistungen im Detail</h2>
+      <p>
+        Gemeinsam mit jungen Menschen, ihren Familien und dem Jugendamt entwickeln wir passgenaue Hilfeangebote.
+        Unser systemischer Ansatz berücksichtigt die komplexen Zusammenhänge der Lebensrealitäten vor Ort.
+      </p>
+      <p>
+        Wir garantieren eine zeitnahe Umsetzung, hohe Erreichbarkeit und transparente Kommunikation – sowohl für
+        Klient*innen als auch für unsere Kooperationspartner.<br />
+        Unsere Arbeit ist nah am Menschen, fachlich fundiert und im Alltag sofort anwendbar.
+      </p>
+    </div>
+
+    <div data-anim="alpha" style="--delay: 0.2s">
+      <Accordion items={panels.leistungen} variant="lines" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .leistungen {
+    padding: var(--s4) 0 var(--s3);
+    background: radial-gradient(at left bottom, #e6e6e6, #fafafa 71%);
+  }
+
+  .leistungen__grid {
+    display: grid;
+    grid-template-columns: calc((100% + 72px) / 3 - 72px) minmax(0, 1fr);
+    gap: 72px;
+    align-items: start;
+  }
+
+  .leistungen__intro { padding-top: 20px; }
+
+  .leistungen__intro p { margin-top: 18px; }
+  .leistungen__intro .badge + p { margin-top: 36px; }
+
+  .leistungen :global(.acc) { margin-top: 0; }
+
+  @media (max-width: 959px) {
+    .leistungen__grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+    }
+  }
+</style>

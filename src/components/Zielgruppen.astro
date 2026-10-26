@@ -1,0 +1,86 @@
+---
+import { getImage } from 'astro:assets';
+import Accordion from './Accordion.astro';
+import bg from '../assets/images/zielgruppen-bg.jpg';
+import { panels } from '../data/site';
+
+const bgImage = await getImage({ src: bg, width: 1920, format: 'webp' });
+
+const cards = [
+  {
+    badge: 'Für junge Menschen & Familien',
+    text: 'Wir sind da, um zu stärken – wertschätzend, ohne Druck, auf Augenhöhe.',
+    panel: panels.zielgruppen[0],
+  },
+  {
+    badge: 'Für Jugendämter',
+    text: 'Verlässliche Zusammenarbeit, transparente Prozesse und fachlich fundierte Steuerung von Hilfen.',
+    panel: panels.zielgruppen[1],
+  },
+];
+---
+
+<section class="zielgruppen" style={`--bg-image: url(${bgImage.src})`}>
+  <div class="zielgruppen__inner">
+    {
+      cards.map((card) => (
+        <div class="zielgruppen__card">
+          <h2 class="badge badge--lg">{card.badge}</h2>
+          <h3 class="h5 fw-500 zielgruppen__text">{card.text}</h3>
+          <Accordion items={[card.panel]} class="zielgruppen__acc" />
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .zielgruppen {
+    position: relative;
+    z-index: 2;
+    background: var(--bg-image) center / cover no-repeat;
+  }
+
+  /* Cremefarbene Fläche (75 %) über dem Foto */
+  .zielgruppen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--creme);
+    opacity: 0.75;
+  }
+
+  .zielgruppen__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px;
+    padding: 72px 72px 108px;
+  }
+
+  .zielgruppen__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 54px 36px;
+    border-radius: var(--radius-lg);
+    background: var(--bg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .zielgruppen__text { margin-top: 36px; line-height: 1.2; }
+
+  .zielgruppen__card :global(.zielgruppen__acc) {
+    align-self: stretch;
+    margin-top: auto;
+    padding-top: 72px;
+  }
+
+  @media (max-width: 959px) {
+    .zielgruppen__inner {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 72px 36px;
+    }
+  }
+
+</style>

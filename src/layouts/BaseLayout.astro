@@ -1,0 +1,109 @@
+---
+import '@fontsource-variable/montserrat';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const fullTitle = title
+  ? `${title} – ${site.name}`
+  : `${site.name} – Freier Träger der ambulanten Hilfen zur Erziehung`;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f7f7" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="de_DE" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <Header />
+    <main id="inhalt">
+      <slot />
+    </main>
+    <Footer />
+
+    <a class="to-top" href="#top" aria-label="Nach oben" data-to-top>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 14.5 5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.8" /></svg>
+    </a>
+
+    <div class="cursor" data-cursor aria-hidden="true"><span></span></div>
+
+    <script>
+      import { initMotion } from '../scripts/motion';
+      initMotion();
+    </script>
+  </body>
+</html>
+
+<style>
+  .to-top {
+    position: fixed;
+    z-index: 100;
+    right: 22px;
+    bottom: 61px;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--heading);
+    border-radius: 2px;
+    background: var(--heading);
+    color: var(--white);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s, background-color 0.2s, color 0.2s;
+  }
+
+  .to-top.is-visible { opacity: 1; visibility: visible; }
+  .to-top:hover { background: transparent; color: var(--heading); }
+  .to-top svg { width: 18px; height: 18px; }
+
+  /* Roter Kreis, der den Mauszeiger über Links begleitet (Uncode „link-only“) */
+  .cursor {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    display: none;
+  }
+
+  .cursor.is-active { display: block; }
+
+  .cursor span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0);
+    transition: opacity 250ms ease-in, width 250ms ease-in, height 250ms ease-in;
+  }
+
+  .cursor.is-link span {
+    width: 60px;
+    height: 60px;
+    opacity: 0.5;
+  }
+</style>

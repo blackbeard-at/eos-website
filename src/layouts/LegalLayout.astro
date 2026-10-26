@@ -1,0 +1,46 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  html: string;
+}
+
+const { title, html } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <article class="legal">
+    <div class="container legal__inner" set:html={html} />
+  </article>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding: 36px 0 var(--s3);
+    background: var(--bg);
+  }
+
+  .legal__inner :global(h1),
+  .legal__inner :global(h2),
+  .legal__inner :global(h3) {
+    margin: 54px 0 0;
+    font-size: var(--h3);
+  }
+
+  .legal__inner :global(h4),
+  .legal__inner :global(h5),
+  .legal__inner :global(h6) {
+    margin: 36px 0 0;
+    font-size: var(--h5);
+  }
+
+  .legal__inner :global(:first-child) { margin-top: 0; }
+
+  .legal__inner :global(ul),
+  .legal__inner :global(ol) { margin: 18px 0 0; padding-left: 1.2em; }
+
+  .legal__inner :global(a) { overflow-wrap: anywhere; }
+
+  .legal__inner :global(a:hover) { color: var(--accent); }
+</style>

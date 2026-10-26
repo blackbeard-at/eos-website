@@ -1,0 +1,67 @@
+---
+// Akkordeon wie im Original: immer nur ein Eintrag offen, Höhe animiert.
+// variant "toggle": „mehr erfahren“-Zeile mit Pfeil; "lines": Linien + Plus.
+import type { Panel } from '../data/site';
+
+interface Props {
+  items: Panel[];
+  variant?: 'toggle' | 'lines';
+  class?: string;
+}
+
+const { items, variant = 'toggle', class: className } = Astro.props;
+const uid = `acc-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class:list={['acc', variant === 'lines' && 'acc--lines', className]} data-accordion>
+  {
+    items.map((item, i) => (
+      <div class="acc__item">
+        <p class="acc__title">
+          <button
+            class="acc__btn"
+            type="button"
+            aria-expanded="false"
+            aria-controls={`${uid}-${i}`}
+            id={`${uid}-${i}-btn`}
+          >
+            {item.title}
+            {variant === 'lines' ? (
+              <svg class="acc__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.5" />
+              </svg>
+            ) : (
+              <svg class="acc__icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m9.5 7 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+            )}
+          </button>
+        </p>
+        <div class="acc__panel" id={`${uid}-${i}`} role="region" aria-labelledby={`${uid}-${i}-btn`}>
+          <div class="acc__body">
+            <div class="acc__text" set:html={item.html} />
+            {item.link && (
+              <p class="acc__link">
+                <a class="link-underline" href={item.link} target="_blank" rel="noopener">
+                  <span>{item.title}</span>
+                </a>
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .acc__text :global(p) { margin-top: 18px; }
+  .acc__text :global(p:first-child) { margin-top: 0; }
+  .acc__text :global(em) { color: var(--heading); font-style: normal; font-weight: 600; }
+
+  .acc__link { margin-top: 18px; }
+  .acc__link a { color: var(--heading); }
+  .acc__link a:hover { color: var(--accent); }
+
+  .acc--lines .acc__body { color: var(--text); }
+</style>

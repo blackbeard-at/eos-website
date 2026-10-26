@@ -1,0 +1,93 @@
+---
+import { Image } from 'astro:assets';
+import placeholder from '../assets/images/team-platzhalter.png';
+import { team } from '../data/site';
+---
+
+<section class="team" id="unser-team">
+  <div class="container">
+    <h2 class="badge">Unser Team</h2>
+
+    {
+      team.map((group, gi) => (
+        <>
+          {gi > 0 && <hr class="team__hr" />}
+          <div class="team__group" style={`--cols: ${group.members.length + 1}`}>
+            <h3 class="h5 team__label">{group.label}</h3>
+            {group.members.map((m) => (
+              <div class="team__member">
+                <div class="team__img">
+                  <Image src={placeholder} alt="" widths={[200, 300, 400]} sizes="(max-width: 959px) 40vw, 20vw" />
+                </div>
+                <h4 class="h5 team__name">{m.name}</h4>
+                <p class="team__role">{m.role}</p>
+                <p class="team__lines h6 fw-500 lh-16">
+                  {m.lines.map((line, i) => (
+                    <>
+                      {i > 0 && <br />}
+                      {line}
+                    </>
+                  ))}
+                </p>
+              </div>
+            ))}
+          </div>
+        </>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .team {
+    position: relative;
+    z-index: 2;
+    padding: var(--s3) 0;
+    background: var(--bg);
+  }
+
+  .team__group {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: 36px;
+    margin-top: 37px;
+  }
+
+  .team__hr {
+    height: 0;
+    margin: 36px 0 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .team__hr + .team__group { margin-top: 36px; }
+
+  .team__img {
+    width: 80%;
+    overflow: hidden;
+  }
+
+  .team__img img {
+    width: 100%;
+    transition: transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1);
+    backface-visibility: hidden;
+  }
+
+  .team__img:hover img { transform: scale(1.05); }
+
+  .team__name { margin-top: 18px; }
+
+  .team__role { margin-top: 9px; }
+
+  .team__lines {
+    margin-top: 18px;
+    color: var(--heading);
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: 959px) {
+    .team__group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .team__label { grid-column: 1 / -1; }
+  }
+
+</style>

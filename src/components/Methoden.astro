@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import Accordion from './Accordion.astro';
+import image from '../assets/images/methoden.jpg';
+import { panels } from '../data/site';
+---
+
+<section class="methoden">
+  <div class="methoden__inner cols">
+    <div class="methoden__img">
+      <Image
+        src={image}
+        alt="Kinder arbeiten gemeinsam am Tisch an einer kreativen Aufgabe"
+        widths={[600, 900, 1300]}
+        sizes="(max-width: 959px) 100vw, 45vw"
+      />
+    </div>
+
+    <div>
+      <h2 class="badge">Unsere Methoden</h2>
+      <h3 class="h3 methoden__title">Womit wir arbeiten</h3>
+      <p>
+        Wir arbeiten mit fachlich anerkannten, systemischen und alltagsnahen Methoden, die junge Menschen und Familien
+        stärken, Orientierung geben und Entwicklung ermöglichen.
+      </p>
+      <p>Alle Methoden setzen wir so ein, dass sie verständlich, praktikabel und im Alltag umsetzbar sind.</p>
+      <Accordion items={panels.methoden} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .methoden { background: var(--white); }
+
+  .methoden__inner {
+    max-width: 1500px;
+    margin-inline: auto;
+    padding: var(--s4) var(--s1);
+    align-items: start;
+  }
+
+  .methoden__img {
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--radius-xl);
+  }
+
+  .methoden__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .methoden__title { margin-top: 18px; }
+
+  .methoden p { margin-top: 18px; }
+</style>

@@ -1,0 +1,115 @@
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/images/hero-kinder.jpg';
+
+// Zeilen der Überschrift; jedes Wort wird einzeln eingeblendet
+const headingLines = ['Begleitung, die stärkt.', 'Unterstützung, die wirkt.'];
+const highlight = 'Kinder, Jugendliche, junge Erwachsene und Familien im Rhein-Main-Gebiet';
+
+let wordIndex = 0;
+const lines = headingLines.map((line) => line.split(' ').map((word) => ({ word, i: wordIndex++ })));
+const hlWords = highlight.split(' ');
+---
+
+<section class="hero" id="willkommen" aria-labelledby="hero-title">
+  <div class="hero__step" aria-hidden="true"></div>
+
+  <div class="hero__inner container" data-anim="alpha">
+    <div class="hero__text" data-parallax="1">
+      <h1 class="hero__title h2 split" id="hero-title">
+        {
+          lines.map((words, li) => (
+            <>
+              {words.map(({ word, i }) => (
+                <>
+                  <span class="w" style={`--i:${i}`}>
+                    <span>{word}</span>
+                  </span>{' '}
+                </>
+              ))}
+              {li < lines.length - 1 && <br />}
+            </>
+          ))
+        }
+      </h1>
+      <p class="hero__sub h5 fw-400 lh-16">
+        Seit 2012 unterstützen wir{' '}
+        <span class="hl">
+          {
+            hlWords.map((word, i) => (
+              <>
+                <span class="hl-word" style={`--i:${i}`}>
+                  <span>{word}</span>
+                </span>
+                {i < hlWords.length - 1 && ' '}
+              </>
+            ))
+          }
+        </span>{' '}
+        – ambulant, systemisch und mit echter menschlicher Nähe.
+      </p>
+    </div>
+
+    <div class="hero__media">
+      <Image
+        src={heroImage}
+        alt="Gruppe von Kindern und Jugendlichen steht lächelnd vor einem Wohnhaus"
+        widths={[640, 1068, 1600, 1920]}
+        sizes="(max-width: 959px) 100vw, 80vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 0 36px;
+    background: var(--white);
+  }
+
+  /* Stufen-Trenner oben rechts (2/3 Breite, 75 % Höhe) in Hellgrau */
+  .hero__step {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% * 2 / 3);
+    height: 75%;
+    background: var(--bg);
+  }
+
+  .hero__inner { position: relative; }
+
+  .hero__text {
+    padding-top: 36px;
+    text-align: center;
+  }
+
+  .hero__title { line-height: 1.2; }
+
+  .hero__sub {
+    max-width: 1000px;
+    margin: 40px auto 0;
+    color: var(--heading);
+  }
+
+  .hero__media {
+    margin-top: 28px;
+    aspect-ratio: 3 / 2;
+  }
+
+  .hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 959px) {
+    .hero { padding-top: 36px; }
+    .hero__text { padding-top: 36px; }
+    .hero__media { margin-top: 40px; }
+  }
+</style>

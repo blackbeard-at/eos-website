@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Intro from '../components/Intro.astro';
+import SplitSection from '../components/SplitSection.astro';
+import Zielgruppen from '../components/Zielgruppen.astro';
+import Leistungen from '../components/Leistungen.astro';
+import Methoden from '../components/Methoden.astro';
+import Team from '../components/Team.astro';
+import Standorte from '../components/Standorte.astro';
+import OnepageDots from '../components/OnepageDots.astro';
+import vision from '../assets/images/vision.jpg';
+import leitbild from '../assets/images/leitbild.jpg';
+import { panels } from '../data/site';
+---
+
+<BaseLayout>
+  <Hero />
+  <Intro />
+  <SplitSection
+    id="unser-leitbild"
+    class="vision"
+    badge="Unsere Vision"
+    title="Wofür wir arbeiten"
+    text="Jeder junge Mensch verdient die Chance, das Leben selbstbestimmt, eigenständig und positiv zu gestalten."
+    image={vision}
+    alt="Kinder sitzen im Kreis und unterhalten sich fröhlich"
+    imageSide="left"
+    items={panels.vision}
+  />
+  <SplitSection
+    class="leitbild"
+    badge="Unser Leitbild"
+    title="Wie wir arbeiten"
+    text="Wir arbeiten systemisch, ressourcenorientiert und lebensweltorientiert – mit verlässlichen Beziehungen, klarer Struktur und echter Beteiligung der jungen Menschen und ihrer Familien."
+    image={leitbild}
+    alt="Jugendliche legen ihre Hände übereinander als Zeichen des Zusammenhalts"
+    imageSide="right"
+    items={panels.leitbild}
+  />
+  <Zielgruppen />
+  <Leistungen />
+  <Methoden />
+  <Team />
+  <Standorte />
+  <OnepageDots />
+</BaseLayout>
+
+<style>
+  :global(.vision) { padding: 72px 0 36px; }
+  :global(.leitbild) { padding: 36px 0 var(--s3); }
+</style>

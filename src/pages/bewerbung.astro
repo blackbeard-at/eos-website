@@ -1,0 +1,135 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import image from '../assets/images/bewerbung.jpg';
+
+const jobs = [
+  {
+    label: 'Team Offenbach',
+    href: 'https://join.com/companies/eos-hilfen/16273540-sozialpaedagogische-fachkraft-w-m-d-fuer-ambulante-hilfen-in-offenbach',
+  },
+  {
+    label: 'Team Frankfurt',
+    href: 'https://join.com/companies/eos-hilfen/16330753-sozialpaedagogische-fachkraft-w-m-d-in-frankfurt-am-main',
+  },
+];
+---
+
+<BaseLayout
+  title="Bewerbung"
+  description="Verstärke unser Team: sozialpädagogische Fachkräfte (w/m/d) für ambulante Hilfen in Offenbach und Frankfurt am Main."
+>
+  <section class="job">
+    <div class="job__step" aria-hidden="true"></div>
+    <div class="container job__inner" data-anim="alpha">
+      <h1 class="h1 job__title">Verstärke unser Team und gestalte Zukunft!</h1>
+
+      <div class="job__grid">
+        <div class="job__media" data-anim="zoom-in">
+          <div data-parallax="1">
+            <div class="media-round job__img">
+              <Image
+                src={image}
+                alt="Junge Erwachsene sitzen lachend zusammen in einem hellen Raum"
+                widths={[600, 900, 1400]}
+                sizes="(max-width: 959px) 100vw, 50vw"
+                loading="eager"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="job__text">
+          <p class="h5 fw-400 lh-16 job__lead">
+            Du möchtest eine sinnstiftende Aufgabe in der ambulanten Kinder- und Jugendhilfe übernehmen? Bei uns erwartet
+            dich ein engagiertes, diverses Team und die Möglichkeit, aktiv an der Entwicklung junger Menschen mitzuwirken.
+          </p>
+
+          <p class="h6 fw-400 lh-16 job__facts">
+            <strong>Unsere Standorte:</strong> Offenbach (Main) &amp; Frankfurt (Main)<br />
+            <strong>Unsere Einsatzgebiete:</strong> Frankfurt, Main-Taunus-Kreis, Offenbach, Kreis Offenbach &amp;
+            Main-Kinzig-Kreis<br />
+            <strong>Unsere Leistungen:</strong> siehe kap.{' '}
+            <a class="link-underline job__link" href="/#leistungen"><span>Leistungen</span></a>
+          </p>
+
+          <p class="h6 fw-400 lh-16 job__apply"><strong>Jetzt bewerben</strong></p>
+          <div class="job__buttons">
+            {
+              jobs.map((job) => (
+                <a class="btn" href={job.href} target="_blank" rel="noopener">
+                  {job.label}
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .job {
+    position: relative;
+    overflow: hidden;
+    padding: 36px 0 var(--s3);
+    background: var(--white);
+  }
+
+  .job__step {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc(100% * 2 / 3);
+    height: 75%;
+    background: var(--bg);
+  }
+
+  .job__inner { position: relative; }
+
+  .job__title { line-height: 1.2; }
+
+  .job__grid {
+    display: grid;
+    grid-template-columns: calc((100% + 36px) * 2 / 3 - 36px) minmax(0, 1fr);
+    gap: 36px;
+    margin-top: -18px;
+    align-items: start;
+  }
+
+  .job__media { margin-top: -12px; }
+
+  .job__img { aspect-ratio: 3 / 2; }
+
+  .job__text { padding-top: 15px; }
+
+  .job__lead { color: var(--heading); }
+
+  .job__facts {
+    margin-top: 18px;
+    color: var(--heading);
+  }
+
+  .job__link { color: var(--accent); }
+
+  .job__apply { margin-top: 36px; color: var(--heading); }
+
+  .job__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    margin-top: 18px;
+  }
+
+  @media (max-width: 959px) {
+    .job__grid {
+      grid-template-columns: minmax(0, 1fr);
+      margin-top: 36px;
+    }
+  }
+</style>

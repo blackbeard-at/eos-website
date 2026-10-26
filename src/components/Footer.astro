@@ -1,0 +1,113 @@
+---
+import Logo from '../assets/logos/eos-logo.svg';
+import { site, locations } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__logo">
+      <Logo aria-hidden="true" />
+    </div>
+
+    <div class="footer__main">
+      <div class="footer__cols">
+        <div class="footer__text">
+          {
+            locations.map((loc) => (
+              <p>
+                <strong>eos GmbH |</strong> {loc.city}
+                <br />
+                {loc.street}
+                <br />
+                {loc.zip}
+              </p>
+            ))
+          }
+          <p>
+            Tel.: <a href={site.phoneHref}>{site.phone}</a>
+            <br />
+            Fax: {site.fax}
+            <br />
+            Email: <a href={`mailto:${site.email}`}>eos[at]eos-hilfen.net</a>
+          </p>
+          <p>
+            Geschäftsführung: {site.managingDirector}
+            <br />
+            {site.register}
+          </p>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="footer__small">
+        <p><a href="/impressum">Impressum</a> | <a href="/datenschutzerklaerung">Datenschutz</a></p>
+        <p>© {year} EOS GmbH - Kinder- und Jugendhilfe. <span>All rights reserved</span></p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--gray); }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 28.3% minmax(0, 1fr);
+    gap: 72px;
+    padding: 72px 108px;
+  }
+
+  .footer__logo { padding: 17px 0 0 14px; }
+
+  .footer__logo :global(svg) {
+    width: 277px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .footer__cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 72px;
+  }
+
+  .footer__text p { margin-top: 18px; }
+  .footer__text p:first-child { margin-top: 0; }
+
+  .footer__text strong { font-weight: 700; }
+
+  .footer__text a:hover,
+  .footer__small a:hover { color: var(--accent); }
+
+  hr {
+    height: 0;
+    margin: 18px 0;
+    border: 0;
+    border-top: 1px solid var(--heading);
+  }
+
+  .footer__small p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.75;
+  }
+
+  .footer__small p + p { margin-top: 18px; }
+
+  .footer__small span { white-space: nowrap; }
+
+  @media (max-width: 959px) {
+    .footer__inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+      padding: 72px 36px;
+    }
+
+    .footer__logo { margin-top: 0; padding: 0; }
+    .footer__cols { grid-template-columns: minmax(0, 1fr); }
+  }
+
+</style>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Seite nicht gefunden">
+  <section class="notfound">
+    <div class="container">
+      <h1 class="h2">Diese Seite gibt es leider nicht.</h1>
+      <p class="h5 fw-400 lh-16">Vielleicht hilft Ihnen die Startseite weiter.</p>
+      <a class="btn" href="/">Zur Startseite</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .notfound {
+    padding: var(--s3) 0;
+    background: var(--white);
+  }
+
+  .notfound p { margin-top: 27px; color: var(--heading); }
+  .notfound .btn { margin-top: 36px; }
+</style>

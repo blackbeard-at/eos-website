@@ -1,0 +1,209 @@
+---
+import Logo from '../assets/logos/eos-logo.svg';
+import { navigation, applyLink } from '../data/site';
+---
+
+<header class="header" id="top">
+  <div class="header__inner container">
+    <a class="header__logo" href="/" aria-label="EOS Kinder- und Jugendhilfe – Startseite">
+      <Logo aria-hidden="true" />
+      <span class="header__claim">Kinder- &amp; Jugendhilfe</span>
+    </a>
+
+    <button class="header__burger" type="button" aria-expanded="false" aria-controls="main-nav">
+      <span class="visually-hidden">Menü</span>
+      <span class="header__lines" aria-hidden="true"></span>
+    </button>
+
+    <nav class="header__nav" id="main-nav" aria-label="Hauptnavigation">
+      <ul>
+        {
+          navigation.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+        <li class="header__cta">
+          <a class="header__btn" href={applyLink.href}>{applyLink.label}</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    box-shadow: 0 4px 10px -10px rgba(0, 0, 0, 0.6);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 36px;
+    height: var(--header-h);
+  }
+
+  /* Wie im Original: Menü mit fester Breite, darf über die Inhaltsbreite
+     hinausragen (nicht aber über den Fensterrand, siehe unten) */
+  .header__nav { flex: none; }
+
+  .header__logo {
+    position: relative;
+    display: block;
+    flex: none;
+    height: 90px;
+  }
+
+  .header__logo :global(svg) {
+    width: auto;
+    height: 90px;
+  }
+
+  /* Der Claim steckt im Original als Pfad im Logo; hier nur für Screenreader */
+  .header__claim {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+
+  .header__nav ul {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .header__nav li > a:not(.header__btn) {
+    display: block;
+    padding: 0 14px 0 0;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    line-height: var(--header-h);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .header__nav li > a:not(.header__btn):hover,
+  .header__nav li > a.is-current { color: var(--accent-50); }
+
+  .header__cta { padding-left: 14px; }
+
+  /* Im Original läuft das Menü hier über den Fensterrand – etwas kleiner setzen */
+  @media (min-width: 960px) and (max-width: 1299px) {
+    .header__nav li > a:not(.header__btn) {
+      padding-right: 8px;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+    }
+
+    .header__cta { padding-left: 6px; }
+    .header__btn { padding: 13px 20px; font-size: 13px; }
+  }
+
+  @media (min-width: 960px) and (max-width: 1099px) {
+    .header__logo,
+    .header__logo :global(svg) { height: 64px; }
+  }
+
+  .header__btn {
+    display: inline-block;
+    padding: 13px 31px;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    line-height: 14px;
+    text-transform: uppercase;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .header__btn:hover {
+    background: var(--accent);
+    color: var(--white);
+  }
+
+  .header__burger { display: none; }
+
+  @media (max-width: 959px) {
+    .header__burger {
+      position: relative;
+      display: block;
+      width: 40px;
+      height: 40px;
+      margin-right: -8px;
+      border: 0;
+      background: none;
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    .header__lines,
+    .header__lines::before,
+    .header__lines::after {
+      position: absolute;
+      left: 8px;
+      width: 24px;
+      height: 2px;
+      border-radius: 2px;
+      background: currentColor;
+      transition: transform 0.3s, top 0.3s, opacity 0.2s;
+    }
+
+    .header__lines { top: 19px; }
+    .header__lines::before,
+    .header__lines::after { content: ''; left: 0; }
+    .header__lines::before { top: -7px; }
+    .header__lines::after { top: 7px; }
+
+    .header__burger[aria-expanded='true'] .header__lines { background: transparent; }
+    .header__burger[aria-expanded='true'] .header__lines::before { top: 0; transform: rotate(45deg); }
+    .header__burger[aria-expanded='true'] .header__lines::after { top: 0; transform: rotate(-45deg); }
+
+    .header__nav {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      display: grid;
+      grid-template-rows: 0fr;
+      background: var(--bg);
+      box-shadow: 0 14px 20px -18px rgba(0, 0, 0, 0.4);
+      transition: grid-template-rows 0.4s cubic-bezier(0.35, 0.81, 0.41, 1);
+    }
+
+    .header__nav.is-open { grid-template-rows: 1fr; }
+
+    .header__nav ul {
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 0;
+      overflow: hidden;
+      padding-inline: var(--s1);
+    }
+
+    .header__nav li > a:not(.header__btn) {
+      padding: 12px 0;
+      line-height: 1.4;
+    }
+
+    .header__nav li:first-child { padding-top: 12px; }
+
+    .header__cta {
+      margin: 12px 0 30px;
+    }
+  }
+</style>
