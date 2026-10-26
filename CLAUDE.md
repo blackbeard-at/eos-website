@@ -40,6 +40,27 @@ Layout und Animationen sind eigenständig nachprogrammiert.
 - Lange E-Mail-Adressen im Team brechen mobil um (Original: Querscroll)
 - Footer ohne bewegtes Rauschen, schlicht grau (#eaeaea, Kundenwunsch 23.10.2026)
 
+## Design-Entwurf (26.10.2026, noch nicht freigegeben)
+- `/entwurf-f` („Familienähnlichkeit“): nach HELIOS-Entwurf F
+  (`../08-03-helios-website/src/pages/entwurf-f.astro`). Stimmung der
+  IEV-Seite, aber jünger: Anthrazit/Creme, Pillen, große Radien, Fotos mit
+  Bogen, Statement mit Wort-Einfärben, magnetische Knöpfe, Creme-Footer.
+  EOS-Farben: Logo-Rot #d63c2d (Knöpfe, Statement-Fläche), Orange #e79245
+- Texte und Navigation 1:1 von der Live-Seite; Leistungen und „Mehr erfahren“
+  öffnen ein Seitenpanel, Methoden als senkrechte Tabs
+- Logo-Bedeutung: Eos = Morgenröte/Sonnenaufgang. `EosMark.astro` zerlegt das
+  Logo in e, „o“ (roter Ring + oranger Lichtbogen), s und Claim. Das „o“ dreht
+  sich als Ganzes (`.o-spin`): beim Einstieg eine fast volle Runde aus der
+  Tiefe, der Bogen färbt sich dabei Dunkelrot → Rot → Orange; am Hero und im
+  Statement kreist es danach ruhig weiter (30 s / 60 s pro Runde); kein
+  Farbverlauf hinter dem Hero-Icon (Wunsch 26.10.2026). Das „o“ ist leicht oval
+  (164.7 × 155.01) – damit es beim Drehen nicht eiert, wird es in EosMark
+  innen auf einen Kreis entzerrt und außen wieder gestaucht.
+  Das „o“ in „positiv“ (Statement) ist das Logo-o (Kundenwunsch 26.10.2026:
+  rotierende Animation statt pendelndem Lichtbogen)
+- Eigenes `DraftLayout.astro` + `draft-base.css` (noindex); Styles global
+  unter `.f` in der Seite selbst. Die bestehende Startseite ist unverändert
+
 ## Offene Punkte
 - SSL-Zertifikat von eos-hilfen.net ist abgelaufen (Stand 23.10.2026)
 - Impressum: E-Mail steht im Original als „eos(at)eos-net“ (fehlt „hilfen.“?)

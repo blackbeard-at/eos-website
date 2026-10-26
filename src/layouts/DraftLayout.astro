@@ -1,0 +1,30 @@
+---
+// Schlankes Layout für Design-Entwürfe (wie bei HELIOS): nur Kopf, Schrift
+// und Grundstil. Header und Footer bringt jeder Entwurf selbst mit. Nicht indexieren.
+import '@fontsource-variable/montserrat';
+import '../styles/draft-base.css';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{title} – EOS</title>
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
