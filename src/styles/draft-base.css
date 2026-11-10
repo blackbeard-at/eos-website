@@ -78,3 +78,12 @@ button {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/* Geschützte E-Mail-Adressen (ProtectedText.astro): ohne Klartext im HTML */
+.pt-text[data-pt-a]::before {
+  content: attr(data-pt-a) '@' attr(data-pt-b);
+}
+
+a[data-pt] {
+  cursor: pointer;
+}

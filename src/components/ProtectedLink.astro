@@ -1,0 +1,15 @@
+---
+// mailto:-Link ohne Klartext im HTML. Das Ziel steht verschlüsselt in data-pt;
+// src/scripts/protect.ts setzt es beim ersten Nutzen der Seite als href ein.
+// Ein direkter Klick öffnet den Link sofort. Weitere Attribute werden durchgereicht.
+import type { HTMLAttributes } from 'astro/types';
+import { encodeHref } from '../lib/protect';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
+  href: string;
+}
+
+const { href, ...rest } = Astro.props;
+---
+
+<a data-pt={encodeHref(href)} role="link" tabindex="0" {...rest}><slot /></a>

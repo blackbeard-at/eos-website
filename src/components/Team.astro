@@ -1,12 +1,17 @@
 ---
+// Team (Textübergabe 9): Funktion, Beschreibungszeile, Qualifikationen,
+// Telefon und E-Mail jeweils als eigenes Element. E-Mail nur geschützt.
 import { Image } from 'astro:assets';
 import placeholder from '../assets/images/team-platzhalter.png';
-import { team } from '../data/site';
+import Mail from './Mail.astro';
+import { team, site } from '../data/site';
+import { teamIntro } from '../data/texte';
 ---
 
 <section class="team" id="unser-team">
   <div class="container">
     <h2 class="badge">Unser Team</h2>
+    <p class="team__intro">{teamIntro}</p>
 
     {
       team.map((group, gi) => (
@@ -21,14 +26,20 @@ import { team } from '../data/site';
                 </div>
                 <h4 class="h5 team__name">{m.name}</h4>
                 <p class="team__role">{m.role}</p>
-                <p class="team__lines h6 fw-500 lh-16">
-                  {m.lines.map((line, i) => (
-                    <>
-                      {i > 0 && <br />}
-                      {line}
-                    </>
+                <p class="team__desc">{m.description}</p>
+                <ul class="team__lines h6 fw-500 lh-16">
+                  {m.quals.map((q) => (
+                    <li>{q}</li>
                   ))}
-                </p>
+                  {m.phone && (
+                    <li>
+                      <a href={site.phoneHref}>{m.phone}</a>
+                    </li>
+                  )}
+                  <li>
+                    <Mail email={m.email} />
+                  </li>
+                </ul>
               </div>
             ))}
           </div>
@@ -44,6 +55,11 @@ import { team } from '../data/site';
     z-index: 2;
     padding: var(--s3) 0;
     background: var(--bg);
+  }
+
+  .team__intro {
+    max-width: 900px;
+    margin-top: 36px;
   }
 
   .team__group {
@@ -77,17 +93,35 @@ import { team } from '../data/site';
 
   .team__name { margin-top: 18px; }
 
-  .team__role { margin-top: 9px; }
+  .team__role {
+    margin-top: 9px;
+    color: var(--heading);
+    font-weight: 600;
+  }
+
+  .team__desc {
+    margin-top: 9px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
 
   .team__lines {
-    margin-top: 18px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
     color: var(--heading);
     overflow-wrap: anywhere;
   }
+
+  .team__lines a:hover { color: var(--accent); }
 
   @media (max-width: 959px) {
     .team__group { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .team__label { grid-column: 1 / -1; }
   }
 
+  @media (max-width: 569px) {
+    .team__group { grid-template-columns: minmax(0, 1fr); }
+    .team__img { width: 50%; }
+  }
 </style>

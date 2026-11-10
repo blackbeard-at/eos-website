@@ -7,13 +7,14 @@ import { site } from '../data/site';
 
 interface Props {
   title?: string;
+  /** Vollständiger Seitentitel (ersetzt „… – EOS GmbH …“) */
+  fullTitle?: string;
   description?: string;
 }
 
 const { title, description = site.description } = Astro.props;
-const fullTitle = title
-  ? `${title} – ${site.name}`
-  : `${site.name} – Freier Träger der ambulanten Hilfen zur Erziehung`;
+const fullTitle =
+  Astro.props.fullTitle ?? (title ? `${title} – ${site.name}` : `${site.name} – Freier Träger der ambulanten Hilfen zur Erziehung`);
 ---
 
 <!doctype html>
@@ -47,6 +48,7 @@ const fullTitle = title
 
     <script>
       import { initMotion } from '../scripts/motion';
+      import '../scripts/protect';
       initMotion();
     </script>
   </body>

@@ -1,5 +1,6 @@
 ---
 import Logo from '../assets/logos/eos-logo.svg';
+import Mail from './Mail.astro';
 import { site, locations } from '../data/site';
 
 const year = new Date().getFullYear();
@@ -30,7 +31,7 @@ const year = new Date().getFullYear();
             <br />
             Fax: {site.fax}
             <br />
-            Email: <a href={`mailto:${site.email}`}>eos[at]eos-hilfen.net</a>
+            Email: <Mail email={site.email} />
           </p>
           <p>
             Geschäftsführung: {site.managingDirector}

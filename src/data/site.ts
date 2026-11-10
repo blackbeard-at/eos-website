@@ -1,17 +1,19 @@
-// Zentrale Inhalte der EOS-Website. Längere Texte (Akkordeons, Team,
-// Rechtstexte) stehen in content.json — 1:1 aus www.eos-hilfen.net übernommen.
+// Zentrale Inhalte der EOS-Website. Freigegebene Texte der Startseite in
+// texte.ts (Textübergabe 09.11.2026), Rechtstexte in content.json.
 import content from './content.json';
+import { meta } from './texte';
 
+// Akkordeon-Eintrag. Link optional: extern (Gesetzestext, neuer Tab) oder
+// intern (Anker auf der Seite).
 export interface Panel {
   title: string;
   html: string;
-  link: string | null;
+  links?: { label: string; href: string; internal?: boolean }[];
 }
 
 export const site = {
   name: 'EOS GmbH – Kinder- und Jugendhilfe',
-  description:
-    'Freier Träger der ambulanten Hilfen zur Erziehung im Rhein-Main-Gebiet: Begleitung für Kinder, Jugendliche, junge Erwachsene und Familien – systemisch und mit echter menschlicher Nähe.',
+  description: meta.description,
   phone: '+49 (0)69-8700588 – 100',
   phoneHref: 'tel:+49698700588100',
   fax: '+49 (0)69-8700588 – 199',
@@ -25,6 +27,7 @@ export const navigation = [
   { label: 'Willkommen', href: '/#willkommen' },
   { label: 'Unser Leitbild', href: '/#unser-leitbild' },
   { label: 'Leistungen', href: '/#leistungen' },
+  { label: 'Kinderschutz', href: '/#kinderschutz' },
   { label: 'Unser Team', href: '/#unser-team' },
   { label: 'Standorte', href: '/#standorte' },
 ];
@@ -52,21 +55,92 @@ export const locations = [
   },
 ];
 
-export const panels = {
-  intro: content.intro as Panel[],
-  vision: content.vision as Panel[],
-  leitbild: content.leitbild as Panel[],
-  zielgruppen: content.zielgruppen as Panel[],
-  leistungen: content.leistungen as Panel[],
-  methoden: content.methoden as Panel[],
-};
+// 9. Unser Team (Textübergabe 09.11.2026): Funktionen und Beschreibungszeilen
+// neu; Namen, Qualifikationen und E-Mail-Adressen wie bisher. Jede Angabe
+// eigenes Element. E-Mail-Adressen nur geschützt ausgeben (Mail.astro).
+export interface Person {
+  name: string;
+  role: string;
+  description: string;
+  quals: string[];
+  phone?: string;
+  email: string;
+}
 
-export const team = content.team as {
-  label: string;
-  members: { name: string; role: string; lines: string[] }[];
-}[];
+export const team: { label: string; members: Person[] }[] = [
+  {
+    label: 'Team Offenbach',
+    members: [
+      {
+        name: 'Eva Kling',
+        role: 'Pädagogische Leitung Offenbach',
+        description:
+          'Verantwortet die fachliche Ausrichtung und Qualität der Hilfen in Offenbach, im Kreis Offenbach und im Main-Kinzig-Kreis. Erste Ansprechpartnerin für Jugendämter bei Klärungsbedarf.',
+        quals: ['Diplom-Pädagogin', 'syst. Beraterin | ISEF'],
+        email: 'e.kling@eos-hilfen.net',
+      },
+      {
+        name: 'Lara Helfer',
+        role: 'Teamleitung Offenbach',
+        description: 'Koordiniert die laufenden Hilfen und ist Ansprechpartnerin für Fachkräfte und Familien.',
+        quals: ['Psychosoziale Beratung und Recht M.A.', 'Erziehungswissenschaften B.A.'],
+        email: 'l.helfer@eos-hilfen.net',
+      },
+    ],
+  },
+  {
+    label: 'Team Frankfurt',
+    members: [
+      {
+        name: 'Franziska Platz',
+        role: 'Pädagogische Leitung Frankfurt',
+        description:
+          'Verantwortet die fachliche Ausrichtung und Qualität der Hilfen in Frankfurt und im Main-Taunus-Kreis. Erste Ansprechpartnerin für Jugendämter bei Klärungsbedarf.',
+        quals: ['Soziale Arbeit M.A.'],
+        email: 'f.platz@eos-hilfen.net',
+      },
+      {
+        name: 'Christina Michel',
+        role: 'Teamleitung Frankfurt',
+        description: 'Koordiniert die laufenden Hilfen und ist Ansprechpartnerin für Fachkräfte und Familien.',
+        quals: ['Diplompädagogin'],
+        email: 'c.michel@eos-hilfen.net',
+      },
+    ],
+  },
+  {
+    label: 'Administration',
+    members: [
+      {
+        name: 'Heike Franzmann',
+        role: 'Verwaltungsleitung',
+        description: 'Verantwortet das Rechnungswesen und die Abrechnung unserer Leistungen.',
+        quals: [],
+        phone: '+49 (0)69-8700588 – 100',
+        email: 'h.franzmann@eos-hilfen.net',
+      },
+      {
+        name: 'Charline Houdij',
+        role: 'Verwaltung',
+        description: 'Erste Ansprechperson für Anfragen und organisatorische Fragen.',
+        quals: [],
+        phone: '+49 (0)69-8700588 – 100',
+        email: 'c.houdij@eos-hilfen.net',
+      },
+      {
+        name: 'Philipp Z. Açba',
+        role: 'Geschäftsführung',
+        description: 'Verantwortet die Unternehmensführung und die Weiterentwicklung der eos.',
+        quals: [],
+        // Keine persönliche Adresse anzeigen (Textübergabe 9)
+        email: 'eos@eos-hilfen.net',
+      },
+    ],
+  },
+];
 
 export const legal = {
+  /** Rechtstexte: <!--EMAIL--> = Platzhalter für die geschützte Adresse */
   impressum: content.impressum as string,
   datenschutz: content.datenschutzerklaerung as string,
 };

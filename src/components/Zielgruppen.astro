@@ -1,36 +1,49 @@
 ---
+// Zwei Karten: Familien („ihr/euch“, Box „Für dich“ per „du“) und Jugendämter
+// („Sie“). Häufige Fragen jeweils als Akkordeon (Textübergabe 4 und 5).
 import { getImage } from 'astro:assets';
 import Accordion from './Accordion.astro';
 import bg from '../assets/images/zielgruppen-bg.jpg';
-import { panels } from '../data/site';
+import { familien, jugendaemter, type Faq } from '../data/texte';
+import { para } from '../lib/html';
 
 const bgImage = await getImage({ src: bg, width: 1920, format: 'webp' });
 
-const cards = [
-  {
-    badge: 'Für junge Menschen & Familien',
-    text: 'Wir sind da, um zu stärken – wertschätzend, ohne Druck, auf Augenhöhe.',
-    panel: panels.zielgruppen[0],
-  },
-  {
-    badge: 'Für Jugendämter',
-    text: 'Verlässliche Zusammenarbeit, transparente Prozesse und fachlich fundierte Steuerung von Hilfen.',
-    panel: panels.zielgruppen[1],
-  },
-];
+const faqItems = (faq: Faq[]) => faq.map((f) => ({ title: f.q, html: para(f.a) }));
+const box = familien.fuerDich;
 ---
 
 <section class="zielgruppen" style={`--bg-image: url(${bgImage.src})`}>
   <div class="zielgruppen__inner">
-    {
-      cards.map((card) => (
-        <div class="zielgruppen__card">
-          <h2 class="badge badge--lg">{card.badge}</h2>
-          <h3 class="h5 fw-500 zielgruppen__text">{card.text}</h3>
-          <Accordion items={[card.panel]} class="zielgruppen__acc" />
-        </div>
-      ))
-    }
+    <div class="zielgruppen__card">
+      <h2 class="badge badge--lg">{familien.badge}</h2>
+      <h3 class="h5 fw-500 zielgruppen__text">{familien.leitsatz}</h3>
+      <p class="zielgruppen__intro">{familien.intro}</p>
+
+      <aside class="zielgruppen__box" aria-labelledby="fuer-dich">
+        <h4 class="h5" id="fuer-dich">{box.title}</h4>
+        <p>{box.text}</p>
+        <p>
+          {box.hotlineBefore}<a class="zielgruppen__tel" href={box.hotlineHref}>{box.hotline}</a>{box.hotlineAfter}
+        </p>
+      </aside>
+
+      <h4 class="h6 zielgruppen__faq-title">Häufige Fragen</h4>
+      <Accordion items={faqItems(familien.faq)} variant="lines" class="zielgruppen__acc" />
+    </div>
+
+    <div class="zielgruppen__card">
+      <h2 class="badge badge--lg">{jugendaemter.badge}</h2>
+      <h3 class="h5 fw-500 zielgruppen__text">{jugendaemter.leitsatz}</h3>
+      <p class="zielgruppen__intro">{jugendaemter.intro}</p>
+
+      <ul class="zielgruppen__list">
+        {jugendaemter.leistungen.map((item) => <li>{item}</li>)}
+      </ul>
+
+      <h4 class="h6 zielgruppen__faq-title">Häufige Fragen</h4>
+      <Accordion items={faqItems(jugendaemter.faq)} variant="lines" class="zielgruppen__acc" />
+    </div>
   </div>
 </section>
 
@@ -70,10 +83,61 @@ const cards = [
 
   .zielgruppen__text { margin-top: 36px; line-height: 1.2; }
 
+  .zielgruppen__intro { margin-top: 18px; }
+
+  /* „Für dich“: kleine hervorgehobene Box für Kinder und Jugendliche */
+  .zielgruppen__box {
+    align-self: stretch;
+    margin-top: 36px;
+    padding: 27px 27px 27px 24px;
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+    background: var(--white);
+  }
+
+  .zielgruppen__box h4 { color: var(--accent); }
+  .zielgruppen__box p { margin-top: 9px; }
+
+  .zielgruppen__tel {
+    color: var(--heading);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .zielgruppen__tel:hover { color: var(--accent); }
+
+  .zielgruppen__list {
+    align-self: stretch;
+    margin: 27px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .zielgruppen__list li {
+    position: relative;
+    padding: 6px 0 6px 22px;
+  }
+
+  .zielgruppen__list li::before {
+    content: '';
+    position: absolute;
+    top: 0.95em;
+    left: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .zielgruppen__faq-title {
+    margin-top: auto;
+    padding-top: 54px;
+    color: var(--heading);
+  }
+
   .zielgruppen__card :global(.zielgruppen__acc) {
     align-self: stretch;
-    margin-top: auto;
-    padding-top: 72px;
+    margin-top: 9px;
   }
 
   @media (max-width: 959px) {
@@ -83,4 +147,8 @@ const cards = [
     }
   }
 
+  @media (max-width: 569px) {
+    .zielgruppen__inner { padding: 54px 18px; }
+    .zielgruppen__card { padding: 36px 22px; }
+  }
 </style>

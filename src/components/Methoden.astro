@@ -2,7 +2,11 @@
 import { Image } from 'astro:assets';
 import Accordion from './Accordion.astro';
 import image from '../assets/images/methoden.jpg';
-import { panels } from '../data/site';
+import { methoden } from '../data/texte';
+import { para } from '../lib/html';
+
+// Sechs Gruppen; Inhalt wörtlich als Aufzählung im Fließtext
+const items = methoden.groups.map((g, i) => ({ title: `${i + 1}. ${g.name}`, html: para(g.items.join(', ')) }));
 ---
 
 <section class="methoden">
@@ -19,12 +23,8 @@ import { panels } from '../data/site';
     <div>
       <h2 class="badge">Unsere Methoden</h2>
       <h3 class="h3 methoden__title">Womit wir arbeiten</h3>
-      <p>
-        Wir arbeiten mit fachlich anerkannten, systemischen und alltagsnahen Methoden, die junge Menschen und Familien
-        stärken, Orientierung geben und Entwicklung ermöglichen.
-      </p>
-      <p>Alle Methoden setzen wir so ein, dass sie verständlich, praktikabel und im Alltag umsetzbar sind.</p>
-      <Accordion items={panels.methoden} />
+      <p>{methoden.intro}</p>
+      <Accordion items={items} />
     </div>
   </div>
 </section>

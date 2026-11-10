@@ -1,0 +1,26 @@
+# Alte WordPress-Adressen (Textübergabe 11.2, 09.11.2026): dauerhaft umleiten
+/index.php/qualitaet /#kinderschutz 301
+/index.php/qualitaet/ /#kinderschutz 301
+/index.php/aktuelle-angebote /bewerbung 301
+/index.php/aktuelle-angebote/ /bewerbung 301
+/index.php/bewerbung /bewerbung 301
+/index.php/bewerbung/ /bewerbung 301
+/index.php/impressum /impressum 301
+/index.php/impressum/ /impressum 301
+/index.php/datenschutzerklaerung /datenschutzerklaerung 301
+/index.php/datenschutzerklaerung/ /datenschutzerklaerung 301
+/index.php / 301
+/index.php/* / 301
+# Frühere Unterseiten ohne index.php
+/qualitaet /#kinderschutz 301
+/qualitaet/ /#kinderschutz 301
+/aktuelle-angebote /bewerbung 301
+/aktuelle-angebote/ /bewerbung 301
+/arbeitsweise / 301
+/arbeitsweise/ / 301
+/missions-and-visions / 301
+/missions-and-visions/ / 301
+# WordPress-Adressen mit Schrägstrich am Ende
+/bewerbung/ /bewerbung 301
+/impressum/ /impressum 301
+/datenschutzerklaerung/ /datenschutzerklaerung 301

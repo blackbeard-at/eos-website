@@ -40,13 +40,19 @@ const uid = `acc-${Math.random().toString(36).slice(2, 8)}`;
         <div class="acc__panel" id={`${uid}-${i}`} role="region" aria-labelledby={`${uid}-${i}-btn`}>
           <div class="acc__body">
             <div class="acc__text" set:html={item.html} />
-            {item.link && (
+            {item.links?.map((link) => (
               <p class="acc__link">
-                <a class="link-underline" href={item.link} target="_blank" rel="noopener">
-                  <span>{item.title}</span>
-                </a>
+                {link.internal ? (
+                  <a class="link-underline" href={link.href}>
+                    <span>{link.label}</span>
+                  </a>
+                ) : (
+                  <a class="link-underline" href={link.href} target="_blank" rel="noopener">
+                    <span>{link.label}</span>
+                  </a>
+                )}
               </p>
-            )}
+            ))}
           </div>
         </div>
       </div>

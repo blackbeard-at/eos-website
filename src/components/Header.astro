@@ -100,8 +100,9 @@ import { navigation, applyLink } from '../data/site';
 
   .header__cta { padding-left: 14px; }
 
-  /* Im Original läuft das Menü hier über den Fensterrand – etwas kleiner setzen */
-  @media (min-width: 960px) and (max-width: 1299px) {
+  /* Seit dem Menüpunkt „Kinderschutz“ (sechs Punkte) ist die Leiste breiter:
+     bis 1599px etwas kleiner setzen, damit nichts über den Fensterrand läuft */
+  @media (min-width: 1200px) and (max-width: 1599px) {
     .header__nav li > a:not(.header__btn) {
       padding-right: 8px;
       font-size: 13px;
@@ -112,7 +113,17 @@ import { navigation, applyLink } from '../data/site';
     .header__btn { padding: 13px 20px; font-size: 13px; }
   }
 
-  @media (min-width: 960px) and (max-width: 1099px) {
+  @media (min-width: 1200px) and (max-width: 1399px) {
+    .header__inner { gap: 18px; }
+
+    .header__nav li > a:not(.header__btn) {
+      padding-right: 5px;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+    }
+
+    .header__btn { padding: 12px 14px; font-size: 12px; letter-spacing: 0.05em; }
+
     .header__logo,
     .header__logo :global(svg) { height: 64px; }
   }
@@ -138,7 +149,8 @@ import { navigation, applyLink } from '../data/site';
 
   .header__burger { display: none; }
 
-  @media (max-width: 959px) {
+  /* Burger-Menü bis 1199px: sechs Menüpunkte passen darunter nicht in eine Zeile */
+  @media (max-width: 1199px) {
     .header__burger {
       position: relative;
       display: block;

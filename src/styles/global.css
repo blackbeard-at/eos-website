@@ -410,3 +410,12 @@ h1, h2, h3, h4, h5, h6 {
   .js .hl-word::after { clip-path: none; transition: none; }
   .acc__panel { transition: none; }
 }
+
+/* Geschützte E-Mail-Adressen (ProtectedText.astro): ohne Klartext im HTML */
+.pt-text[data-pt-a]::before {
+  content: attr(data-pt-a) '@' attr(data-pt-b);
+}
+
+a[data-pt] {
+  cursor: pointer;
+}

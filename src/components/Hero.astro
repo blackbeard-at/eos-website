@@ -1,10 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import heroImage from '../assets/images/hero-kinder.jpg';
+import { hero } from '../data/texte';
 
 // Zeilen der Überschrift; jedes Wort wird einzeln eingeblendet
 const headingLines = ['Begleitung, die stärkt.', 'Unterstützung, die wirkt.'];
-const highlight = 'Kinder, Jugendliche, junge Erwachsene und Familien im Rhein-Main-Gebiet';
+const highlight = hero.highlight;
 
 let wordIndex = 0;
 const lines = headingLines.map((line) => line.split(' ').map((word) => ({ word, i: wordIndex++ })));
@@ -33,7 +34,7 @@ const hlWords = highlight.split(' ');
         }
       </h1>
       <p class="hero__sub h5 fw-400 lh-16">
-        Seit 2012 unterstützen wir{' '}
+        {hero.before}
         <span class="hl">
           {
             hlWords.map((word, i) => (
@@ -45,8 +46,10 @@ const hlWords = highlight.split(' ');
               </>
             ))
           }
-        </span>{' '}
-        – ambulant, systemisch und mit echter menschlicher Nähe.
+        </span>{hero.after}
+      </p>
+      <p class="hero__actions">
+        <a class="btn" href={hero.button.href}>{hero.button.label}</a>
       </p>
     </div>
 
@@ -95,6 +98,8 @@ const hlWords = highlight.split(' ');
     margin: 40px auto 0;
     color: var(--heading);
   }
+
+  .hero__actions { margin-top: 36px; }
 
   .hero__media {
     margin-top: 28px;

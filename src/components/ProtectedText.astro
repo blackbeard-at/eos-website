@@ -1,0 +1,16 @@
+---
+// E-Mail-Adresse als sichtbarer Text ohne Klartext im HTML: die zwei Teile
+// stehen in data-Attributen, CSS setzt sie per ::before zusammen (auch ohne JS
+// sichtbar). protect.ts ersetzt das beim ersten Nutzen durch echten Text.
+import { splitMail } from '../lib/protect';
+
+interface Props {
+  value: string;
+  class?: string;
+}
+
+const { value, class: className } = Astro.props;
+const { a, b } = splitMail(value);
+---
+
+<span class:list={['pt-text', className]} data-pt-a={a} data-pt-b={b}></span>

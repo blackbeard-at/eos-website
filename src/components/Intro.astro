@@ -1,6 +1,6 @@
 ---
-import Accordion from './Accordion.astro';
-import { panels } from '../data/site';
+// Der frühere „mehr erfahren“-Text ist in den Hero-Text aufgegangen
+// (Textübergabe 09.11.2026, 2.1)
 ---
 
 <section class="intro">
@@ -10,7 +10,6 @@ import { panels } from '../data/site';
       Unser Ziel: junge Menschen stärken, Familien stabilisieren und Hilfen wirksam gestalten – verlässlich,
       respektvoll und fachlich fundiert.
     </p>
-    <Accordion items={panels.intro} class="intro__acc" />
   </div>
 </section>
 
@@ -24,13 +23,5 @@ import { panels } from '../data/site';
     margin-top: 36px;
     color: var(--heading);
     line-height: 1.2;
-  }
-
-  .intro :global(.intro__acc) { margin-top: 35px; }
-
-  .intro :global(.acc__text) {
-    color: var(--text);
-    font-size: 17px;
-    line-height: 1.75;
   }
 </style>

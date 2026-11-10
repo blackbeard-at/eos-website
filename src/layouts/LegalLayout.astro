@@ -1,5 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import Mail from '../components/Mail.astro';
+import { site } from '../data/site';
 
 interface Props {
   title: string;
@@ -7,11 +9,22 @@ interface Props {
 }
 
 const { title, html } = Astro.props;
+// <!--EMAIL--> im Rechtstext wird zur geschützten Adresse (kein Klartext im HTML)
+const parts = html.split('<!--EMAIL-->');
 ---
 
 <BaseLayout title={title}>
   <article class="legal">
-    <div class="container legal__inner" set:html={html} />
+    <div class="container legal__inner">
+      {
+        parts.map((part, i) => (
+          <>
+            {i > 0 && <Mail email={site.email} />}
+            <Fragment set:html={part} />
+          </>
+        ))
+      }
+    </div>
   </article>
 </BaseLayout>
 

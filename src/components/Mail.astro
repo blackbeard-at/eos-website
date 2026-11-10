@@ -1,0 +1,19 @@
+---
+// Geschützte E-Mail-Adresse als klickbarer Link mit sichtbarer Adresse.
+// Mit Slot: eigener Linkinhalt (z. B. Icon) statt der Adresse.
+import ProtectedLink from './ProtectedLink.astro';
+import ProtectedText from './ProtectedText.astro';
+
+interface Props {
+  email: string;
+  class?: string;
+  label?: string;
+}
+
+const { email, class: className, label } = Astro.props;
+const hasSlot = Astro.slots.has('default');
+---
+
+<ProtectedLink href={`mailto:${email}`} class={className} aria-label={label}>
+  {hasSlot ? <slot /> : <ProtectedText value={email} />}
+</ProtectedLink>

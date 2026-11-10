@@ -16,8 +16,25 @@ Layout und Animationen sind eigenständig nachprogrammiert.
 ## Aufbau
 - Startseite ist ein Onepage mit Ankern `#willkommen`, `#unser-leitbild`,
   `#leistungen`, `#unser-team`, `#standorte` (Navigation in `src/data/site.ts`)
-- Lange Texte (Akkordeons, Team, Impressum, Datenschutz) in
-  `src/data/content.json` — per Skript aus dem Original ausgelesen
+- Texte der Startseite seit Textübergabe Fassung 1 (09.11.2026, freigegeben
+  von P. Z. Açba) in `src/data/texte.ts`, Team in `src/data/site.ts`; beide
+  Seiten (Startseite und /entwurf-f) nutzen dieselbe Quelle. Wörtlich
+  übernehmen, nicht umformulieren, Widersprüche melden. Regeln: Familien
+  „ihr/euch“, junge Menschen „du“, Jugendämter „Sie“; `§`/`§§` mit
+  geschütztem Leerzeichen; Einsatzgebiet nach außen „Rhein-Main-Gebiet“,
+  einzelne Kreise nur in der Jugendamt-FAQ, im Gelnhausen-Hinweis und bei den
+  Pädagogischen Leitungen. Kinderschutz-Standardsätze je genau einmal
+- Rechtstexte (Impressum, Datenschutz) in `src/data/content.json`;
+  `<!--EMAIL-->` darin wird zur geschützten Adresse
+- Abschnitt `#kinderschutz` (neu, nach Leistungen) mit Menüpunkt
+- E-Mail-Adressen nie im Klartext im HTML (wie IEV): `Mail.astro` /
+  `ProtectedLink.astro` / `ProtectedText.astro`, freigeschaltet beim ersten
+  Nutzen durch `src/scripts/protect.ts`
+- `public/_redirects`: alte WordPress-Adressen (`/index.php/…`,
+  `/qualitaet`, `/aktuelle-angebote` usw.) per 301 auf Startseite,
+  `#kinderschutz` bzw. `/bewerbung`
+- Lokal mit Headern/Weiterleitungen prüfen: `npm run build`, dann
+  Launch-Konfiguration `eos-wrangler` (Port 8788)
 - Maße am Original bei 1440px gemessen; Breakpoints wie Uncode: 1499/959/569px
 - Inhaltsbreite = 80 % des Fensters + 36px Innenrand (`.container`)
 - Farben: Rot #dc3c1e, Anthrazit #323335, Text #777, Hellgrau #f7f7f7,
@@ -35,8 +52,8 @@ Layout und Animationen sind eigenständig nachprogrammiert.
 ## Bewusste Abweichungen vom Original
 - Kein Cookie-Banner (keine Cookies); Google Maps erst nach Klick
   („Karte laden“) statt direkt eingebettet
-- Menü läuft im Original zwischen 960–1300px über den Fensterrand; hier
-  dort etwas kleiner gesetzt
+- Menü (seit 09.11.2026 sechs Punkte): Burger-Menü bis 1199px, 1200–1599px
+  kleiner gesetzt, damit nichts über den Fensterrand läuft
 - Lange E-Mail-Adressen im Team brechen mobil um (Original: Querscroll)
 - Footer ohne bewegtes Rauschen, schlicht grau (#eaeaea, Kundenwunsch 23.10.2026)
 
@@ -62,9 +79,10 @@ Layout und Animationen sind eigenständig nachprogrammiert.
   unter `.f` in der Seite selbst. Die bestehende Startseite ist unverändert
 
 ## Offene Punkte
-- SSL-Zertifikat von eos-hilfen.net ist abgelaufen (Stand 23.10.2026)
-- Impressum: E-Mail steht im Original als „eos(at)eos-net“ (fehlt „hilfen.“?)
-  — 1:1 übernommen, mit Kunde klären
+- SSL-Zertifikat der Live-Seite erneuert am 10.11.2026, gültig bis 15.05.2027
+- Textübergabe 09.11.2026: /bewerbung und Sprachen im Team folgen später
+- Statement in /entwurf-f: Logo-o jetzt in „woher“ (früher „positiv“, steht
+  im neuen Text nicht mehr) — bei Freigabe des Entwurfs abstimmen
 - Stockfoto-Lizenzen für die neue Seite prüfen
 - Team hat nur Platzhalter-Grafik statt Porträts (wie im Original)
 

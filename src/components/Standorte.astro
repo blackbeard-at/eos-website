@@ -2,6 +2,7 @@
 // Karten: Google Maps wird erst nach Klick geladen (Zwei-Klick-Lösung,
 // da die statische Seite keinen Cookie-Banner mehr hat).
 import { locations } from '../data/site';
+import { gelnhausen } from '../data/texte';
 ---
 
 <section class="standorte" id="standorte">
@@ -39,6 +40,13 @@ import { locations } from '../data/site';
           </div>
         ))
       }
+    </div>
+
+    <!-- Hinweis Gelnhausen (Textübergabe 10): ohne Adresse, Datum und Karte -->
+    <div class="standorte__soon">
+      <p>
+        <strong>{gelnhausen.title}</strong> {gelnhausen.text}
+      </p>
     </div>
   </div>
 </section>
@@ -124,6 +132,15 @@ import { locations } from '../data/site';
   }
 
   .standorte__card p { margin-top: 18px; }
+
+  .standorte__soon {
+    margin-top: 36px;
+    padding: 27px 36px;
+    border: 1px dashed var(--line);
+    text-align: center;
+  }
+
+  .standorte__soon strong { color: var(--heading); }
 
   @media (max-width: 959px) {
     .standorte__grid { grid-template-columns: minmax(0, 1fr); }
