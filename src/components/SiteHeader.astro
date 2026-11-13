@@ -1,0 +1,32 @@
+---
+// Kopf mit großem Logo. Auf der Startseite springen die Links zu den
+// Abschnitten (mit Abschnitts-Markierung), auf Unterseiten zurück zur Startseite.
+import EosMark from './EosMark.astro';
+import { navigation, applyLink } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\.html$/, '');
+const home = path === '/' || path === '/index';
+const href = (link: string) => (home ? `#${link.split('#')[1]}` : link);
+---
+
+<header class="nav">
+  <a
+    class="nav__logo"
+    href={home ? '#willkommen' : '/'}
+    aria-label={home ? 'EOS – Kinder- und Jugendhilfe, zum Anfang' : 'EOS – Kinder- und Jugendhilfe, zur Startseite'}
+  >
+    <EosMark class="mark-intro" />
+  </a>
+  <nav class="nav__links" id="nav-f" aria-label="Hauptmenü">
+    {navigation.map((s) => <a href={href(s.href)} data-spy>{s.label}</a>)}
+    <a
+      class="btn btn--primary btn--sm nav__cta"
+      href={applyLink.href}
+      aria-current={path === applyLink.href ? 'page' : undefined}
+      data-magnet>{applyLink.label}</a
+    >
+  </nav>
+  <button class="nav__menu" type="button" aria-expanded="false" aria-controls="nav-f" data-menu>
+    <span class="sr-only">Menü</span><i></i><i></i>
+  </button>
+</header>

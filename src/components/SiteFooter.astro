@@ -1,0 +1,42 @@
+---
+// Footer in Creme wie bei IEV, Angaben wie auf der bisherigen Seite.
+import EosMark from './EosMark.astro';
+import Mail from './Mail.astro';
+import { site, applyLink, locations } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="foot__inner">
+    <div class="foot__brand">
+      <EosMark class="mark-intro mark-intro--view" />
+    </div>
+    <div class="foot__address">
+      {
+        locations.map((loc) => (
+          <p>
+            <strong>eos GmbH | {loc.city}</strong>
+            <br />
+            {loc.street}
+            <br />
+            {loc.zip}
+          </p>
+        ))
+      }
+    </div>
+    <div class="foot__address">
+      <p>
+        Tel.: <a href={site.phoneHref}>{site.phone}</a><br />
+        Fax: {site.fax}<br />
+        Email: <Mail email={site.email} />
+      </p>
+      <p>Geschäftsführung: {site.managingDirector}<br />{site.register}</p>
+      <p><a class="btn btn--primary btn--sm" href={applyLink.href} data-magnet>Jetzt bewerben</a></p>
+    </div>
+  </div>
+  <div class="foot__meta">
+    <p><a href="/impressum">Impressum</a> | <a href="/datenschutzerklaerung">Datenschutz</a></p>
+    <p>© {year} EOS GmbH - Kinder- und Jugendhilfe. <span class="nowrap">All rights reserved</span></p>
+  </div>
+</footer>

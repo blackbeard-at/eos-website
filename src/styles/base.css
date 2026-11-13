@@ -1,5 +1,4 @@
-/* Grundstil der Entwürfe: Reset, Schrift, Hilfsklassen.
-   Farben und Komponenten bringt jeder Entwurf selbst mit. */
+/* Grundstil: Reset, Schrift, Hilfsklassen. Farben und Komponenten in site.css. */
 
 *,
 *::before,
@@ -86,4 +85,8 @@ button {
 
 a[data-pt] {
   cursor: pointer;
+}
+
+.nowrap {
+  white-space: nowrap;
 }

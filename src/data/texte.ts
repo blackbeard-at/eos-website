@@ -1,7 +1,7 @@
 // Freigegebene Texte der Startseite (Textübergabe Fassung 1 vom 09.11.2026,
 // freigegeben von P. Z. Açba). Wörtlich übernehmen, nicht umformulieren —
 // Widersprüche melden statt selbst ändern. § und §§ immer mit geschütztem
-// Leerzeichen ( ). Startseite und /entwurf-f nutzen dieselbe Quelle.
+// Leerzeichen ( ).
 
 const NB = ' ';
 
@@ -313,6 +313,6 @@ export const teamIntro =
 
 // 10. Standorte: Hinweis Gelnhausen (ohne Adresse, Datum, Karte)
 export const gelnhausen = {
-  title: 'Bald auch in Gelnhausen.',
+  title: 'Bald auch in MKK.',
   text: 'Für den Main-Kinzig-Kreis bereiten wir einen eigenen Standort in Gelnhausen vor. Bis dahin betreuen wir Familien im Main-Kinzig-Kreis von Offenbach aus.',
 };

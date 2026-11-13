@@ -1,53 +1,415 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import Intro from '../components/Intro.astro';
-import SplitSection from '../components/SplitSection.astro';
-import Zielgruppen from '../components/Zielgruppen.astro';
-import Leistungen from '../components/Leistungen.astro';
-import Kinderschutz from '../components/Kinderschutz.astro';
-import Methoden from '../components/Methoden.astro';
-import Team from '../components/Team.astro';
-import Standorte from '../components/Standorte.astro';
-import OnepageDots from '../components/OnepageDots.astro';
+// Startseite (Onepage) im Design „Entwurf F“ (Familienähnlichkeit), vom Kunden
+// freigegeben am 13.11.2026. Die Bewegung folgt dem Logo: Eos ist die
+// Morgenröte – im „o“ geht hinter dem roten Ring ein oranger Lichtbogen auf.
+import { Image } from 'astro:assets';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import EosMark from '../components/EosMark.astro';
+import Mail from '../components/Mail.astro';
+import { site, locations, team } from '../data/site';
+import {
+  meta,
+  heroText,
+  hero as heroData,
+  vision as visionText,
+  arbeitsweise,
+  familien,
+  jugendaemter,
+  leistungen,
+  leistungTitle,
+  kinderschutz,
+  methoden as methodenData,
+  teamIntro,
+  gelnhausen,
+} from '../data/texte';
+import hero from '../assets/images/hero-kinder.jpg';
 import vision from '../assets/images/vision.jpg';
 import leitbild from '../assets/images/leitbild.jpg';
-import { meta, vision as visionText, arbeitsweise } from '../data/texte';
+import methodenImg from '../assets/images/methoden.jpg';
+
+// Texte: Textübergabe Fassung 1 (09.11.2026) in src/data/texte.ts.
+
+// Statement: erster Satz aus „Wofür wir arbeiten“, das „o“ in „woher“ wird
+// zum Logo-o (früher „positiv“, das Wort steht im neuen Text nicht mehr)
+const statement = visionText.slice(0, visionText.indexOf('.') + 1).split(' ');
+const dawnWord = 'woher';
+
+const methoden = methodenData.groups.map((g, i) => ({
+  id: `methode-${i + 1}`,
+  num: String(i + 1).padStart(2, '0'),
+  name: g.name,
+  items: g.items,
+}));
+
+const initials = (name: string) => {
+  const parts = name.split(' ').filter((w) => !w.endsWith('.'));
+  return (parts[0][0] + parts.at(-1)![0]).toUpperCase();
+};
 ---
 
-<BaseLayout fullTitle={meta.title} description={meta.description}>
-  <Hero />
-  <Intro />
-  <SplitSection
-    id="unser-leitbild"
-    class="vision"
-    badge="Unsere Vision"
-    title="Wofür wir arbeiten"
-    text={visionText}
-    image={vision}
-    alt="Kinder sitzen im Kreis und unterhalten sich fröhlich"
-    imageSide="left"
-  />
-  <SplitSection
-    class="leitbild"
-    badge="Unser Leitbild"
-    title="Wie wir arbeiten"
-    text={arbeitsweise.intro}
-    image={leitbild}
-    alt="Jugendliche legen ihre Hände übereinander als Zeichen des Zusammenhalts"
-    imageSide="right"
-    points={arbeitsweise.cards}
-  />
-  <Zielgruppen />
-  <Leistungen />
-  <Kinderschutz />
-  <Methoden />
-  <Team />
-  <Standorte />
-  <OnepageDots />
-</BaseLayout>
+<SiteLayout fullTitle={meta.title} description={meta.description}>
+    <!-- Willkommen -->
+    <section class="hero" id="willkommen">
+      <div class="hero__content">
+        <p class="chip hero-in" style="--d:0"><span class="dawn-dot" aria-hidden="true"></span>Freier Träger der ambulanten Kinder- und Jugendhilfe</p>
+        <h1 class="hero__title">
+          <span class="hero-line"><span class="hero-in" style="--d:1">Begleitung, die stärkt.</span></span>{' '}
+          <span class="hero-line"><span class="hero-in" style="--d:2">Unterstützung, die <mark>wirkt.</mark></span></span>
+        </h1>
+        <p class="lead hero-in" style="--d:3">
+          {heroText}
+        </p>
+        <p class="hero__more hero-in" style="--d:4">
+          Unser Ziel: junge Menschen stärken, Familien stabilisieren und Hilfen wirksam gestalten – verlässlich,
+          respektvoll und fachlich fundiert.
+        </p>
+        <p class="hero__actions hero-in" style="--d:5">
+          <a class="btn btn--primary" href="#leistungen" data-magnet>
+            Leistungen
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          </a>
+          <a class="btn btn--ghost" href={heroData.button.href} data-magnet>{heroData.button.label}</a>
+        </p>
+      </div>
 
-<style>
-  :global(.vision) { padding: 72px 0 36px; }
-  :global(.leitbild) { padding: 36px 0 var(--s3); }
-</style>
+      <figure class="hero__media">
+        <div class="arch arch--hero">
+          <Image src={hero} alt="Gruppe von Kindern und Jugendlichen steht lächelnd vor einem Wohnhaus" widths={[640, 960, 1400]} sizes="(min-width: 992px) 46vw, 100vw" loading="eager" fetchpriority="high" />
+        </div>
+        <!-- Großes „o“: Ring erscheint, dahinter geht der Lichtbogen auf -->
+        <div class="hero__dawn">
+          <EosMark variant="icon" class="mark-dawn" />
+        </div>
+      </figure>
+    </section>
+
+    <!-- Statement aus „Unsere Vision“, auf einer Fläche in Logo-Rot -->
+    <section class="statement" aria-label="Unser Anspruch">
+      <div class="statement__panel">
+        <EosMark variant="icon" class="statement__o" />
+        <h2 class="statement__title" data-scrub>
+          {
+            statement.map((w, i) => (
+              <>
+                {i > 0 && ' '}
+                <span class="scrub">
+                  {w.replace(/[,.]$/, '') === dawnWord ? (
+                    <>
+                      {w.slice(0, w.indexOf('o'))}
+                      <span class="dawn-o" aria-hidden="true"><span>o</span><EosMark variant="icon" /></span>
+                      <span class="sr-only">o</span>
+                      {w.slice(w.indexOf('o') + 1)}
+                    </>
+                  ) : (
+                    w
+                  )}
+                </span>
+              </>
+            ))
+          }
+        </h2>
+      </div>
+    </section>
+
+    <!-- Unser Leitbild: Vision und Leitbild -->
+    <section class="leitbild" id="unser-leitbild" aria-label="Unser Leitbild">
+      <div class="split">
+        <div class="split__media" data-reveal>
+          <div class="arch arch--split">
+            <Image src={vision} alt="Kinder sitzen im Kreis und unterhalten sich fröhlich" widths={[480, 800]} sizes="(min-width: 992px) 40vw, 100vw" />
+          </div>
+        </div>
+        <div class="split__text">
+          <p class="chip" data-reveal><span class="dawn-dot" aria-hidden="true"></span>Unsere Vision</p>
+          <h2 class="h2" data-reveal>Wofür wir arbeiten</h2>
+          <div class="prose" data-reveal><p>{visionText}</p></div>
+        </div>
+      </div>
+
+      <div class="split split--reverse">
+        <div class="split__media" data-reveal>
+          <div class="arch arch--split">
+            <Image src={leitbild} alt="Jugendliche legen ihre Hände übereinander als Zeichen des Zusammenhalts" widths={[480, 800]} sizes="(min-width: 992px) 40vw, 100vw" />
+          </div>
+        </div>
+        <div class="split__text">
+          <p class="chip" data-reveal><span class="dawn-dot" aria-hidden="true"></span>Unser Leitbild</p>
+          <h2 class="h2" data-reveal>Wie wir arbeiten</h2>
+          <p class="lead" data-reveal>{arbeitsweise.intro}</p>
+          <ul class="points" data-reveal-group>
+            {
+              arbeitsweise.cards.map((c) => (
+                <li>
+                  <h3>{c.title}</h3>
+                  <p>{c.text}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Für wen wir da sind: zwei Karten, häufige Fragen im Seitenpanel -->
+    <section class="zielgruppen" aria-label="Für wen wir da sind">
+      <article class="zg" data-reveal>
+        <p class="chip"><span class="dawn-dot" aria-hidden="true"></span>{familien.badge}</p>
+        <h2 class="zg__text">{familien.leitsatz}</h2>
+        <p class="zg__intro">{familien.intro}</p>
+        <aside class="zg__box" aria-labelledby="fuer-dich">
+          <h3 id="fuer-dich">{familien.fuerDich.title}</h3>
+          <p>{familien.fuerDich.text}</p>
+          <p>
+            {familien.fuerDich.hotlineBefore}<a href={familien.fuerDich.hotlineHref}>{familien.fuerDich.hotline}</a>{familien.fuerDich.hotlineAfter}
+          </p>
+        </aside>
+        <details class="more" data-more data-title={`Häufige Fragen: ${familien.badge}`}>
+          <summary>Häufige Fragen</summary>
+          <div class="more__detail">
+            {familien.faq.map((f) => (
+              <>
+                <h4 class="faq__q">{f.q}</h4>
+                <p>{f.a}</p>
+              </>
+            ))}
+          </div>
+        </details>
+      </article>
+
+      <article class="zg zg--ink" data-reveal>
+        <p class="chip"><span class="dawn-dot" aria-hidden="true"></span>{jugendaemter.badge}</p>
+        <h2 class="zg__text">{jugendaemter.leitsatz}</h2>
+        <p class="zg__intro">{jugendaemter.intro}</p>
+        <ul class="zg__list">
+          {jugendaemter.leistungen.map((item) => <li>{item}</li>)}
+        </ul>
+        <details class="more" data-more data-title={`Häufige Fragen: ${jugendaemter.badge}`}>
+          <summary>Häufige Fragen</summary>
+          <div class="more__detail">
+            {jugendaemter.faq.map((f) => (
+              <>
+                <h4 class="faq__q">{f.q}</h4>
+                <p>{f.a}</p>
+              </>
+            ))}
+          </div>
+        </details>
+      </article>
+    </section>
+
+    <!-- Leistungen: kompakte Karten, Details im Seitenpanel -->
+    <section class="leistungen" id="leistungen" aria-labelledby="leistungen-title">
+      <div class="section-head">
+        <div>
+          <p class="chip" data-reveal><span class="dawn-dot" aria-hidden="true"></span>Unsere Leistungen im Detail</p>
+          <h2 class="h2" id="leistungen-title" data-reveal>Unsere Leistungen</h2>
+        </div>
+        <div class="lead" data-reveal>
+          <p>{leistungen.intro}</p>
+        </div>
+      </div>
+
+      <div class="cards">
+        {
+          leistungen.items.map((l) => (
+            <article class="card" data-reveal>
+              {l.label && <p class="card__label">{l.label}</p>}
+              <h3 class="card__title">{l.name}</h3>
+              <p class="card__teaser">{l.text}</p>
+              <p class="card__links">
+                {l.internal && (
+                  <a class="link-arrow" href={l.internal.href}>
+                    {l.internal.label}
+                    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </a>
+                )}
+                {l.law && (
+                  <a class="card__law" href={l.law} target="_blank" rel="noopener" aria-label={`${leistungTitle(l)}: Gesetzestext öffnen`}>
+                    Gesetzestext
+                  </a>
+                )}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Kinderschutz: vier Schritte und „Was uns verbindlich macht“ -->
+    <section class="ks" id="kinderschutz" aria-labelledby="ks-title">
+      <div class="section-head">
+        <div>
+          <p class="chip" data-reveal><span class="dawn-dot" aria-hidden="true"></span>Kinderschutz</p>
+          <h2 class="h2" id="ks-title" data-reveal>{kinderschutz.title}</h2>
+        </div>
+        <div class="lead" data-reveal>
+          <p>{kinderschutz.intro}</p>
+        </div>
+      </div>
+      <ol class="ks__steps" data-reveal-group>
+        {
+          kinderschutz.steps.map((step, i) => (
+            <li class="ks__step">
+              <span class="ks__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="ks__list" data-reveal>
+        <h3 class="h3">{kinderschutz.listTitle}</h3>
+        <ul>
+          {kinderschutz.list.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Methoden: senkrechte Tabs -->
+    <section class="methoden" aria-labelledby="methoden-title">
+      <div class="section-head">
+        <div>
+          <p class="chip" data-reveal><span class="dawn-dot" aria-hidden="true"></span>Unsere Methoden</p>
+          <h2 class="h2" id="methoden-title" data-reveal>Womit wir arbeiten</h2>
+        </div>
+        <div class="lead" data-reveal>
+          <p>{methodenData.intro}</p>
+        </div>
+      </div>
+
+      <div class="tabs" data-tabs>
+        <div class="tabs__side">
+          <div class="tabs__list" role="tablist" aria-label="Methoden" aria-orientation="vertical">
+            <span class="tabs__pill" aria-hidden="true"></span>
+            {
+              methoden.map((m, i) => (
+                <button
+                  class="tabs__tab"
+                  type="button"
+                  role="tab"
+                  id={`${m.id}-tab`}
+                  aria-controls={m.id}
+                  aria-selected={i === 0 ? 'true' : 'false'}
+                  tabindex={i === 0 ? 0 : -1}
+                >
+                  <span class="tabs__ray" aria-hidden="true" />
+                  <span>{m.name}</span>
+                </button>
+              ))
+            }
+          </div>
+          <div class="arch arch--tabs" data-reveal>
+            <Image src={methodenImg} alt="Kinder arbeiten gemeinsam am Tisch an einer kreativen Aufgabe" widths={[400, 700]} sizes="(min-width: 992px) 30vw, 100vw" />
+          </div>
+        </div>
+
+        <div class="tabs__panels">
+          {
+            methoden.map((m, i) => (
+              <div class="panel" role="tabpanel" id={m.id} aria-labelledby={`${m.id}-tab`} hidden={i !== 0} tabindex="0">
+                <p class="panel__num">{m.num}</p>
+                <h3 class="h3">{m.name}</h3>
+                <ul class="panel__tags">
+                  {m.items.map((it) => (
+                    <li>{it}</li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Unser Team -->
+    <section class="team" id="unser-team" aria-labelledby="team-title">
+      <h2 class="h2" id="team-title" data-reveal>Unser Team</h2>
+      <p class="lead team__intro" data-reveal>{teamIntro}</p>
+      {
+        team.map((g) => (
+          <div class="team__group">
+            <h3 class="chip" data-reveal>
+              <span class="dawn-dot" aria-hidden="true" />
+              {g.label}
+            </h3>
+            <ul class="people" data-reveal-group>
+              {g.members.map((p) => (
+                <li class="person">
+                  <span class="person__initials" aria-hidden="true">
+                    {initials(p.name)}
+                  </span>
+                  <h4>{p.name}</h4>
+                  <p class="person__role">
+                    <strong>{p.role}</strong>
+                  </p>
+                  <p class="person__desc">{p.description}</p>
+                  {p.quals.length > 0 && (
+                    <p class="person__quals">
+                      {p.quals.map((l) => (
+                        <span>{l}</span>
+                      ))}
+                    </p>
+                  )}
+                  <p class="person__contact">
+                    {p.phone && (
+                      <a class="person__btn" href={site.phoneHref} aria-label={`${p.name} anrufen: ${p.phone}`}>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.4 4.2-2 1.4a12 12 0 0 0 6.3 6.3l1.4-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /></svg>
+                      </a>
+                    )}
+                    <Mail email={p.email} class="person__btn" label={`E-Mail an ${p.name}`}>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.6" /><path d="m4 7 8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+                    </Mail>
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </section>
+
+    <!-- Unsere Standorte: Karte erst nach Klick -->
+    <section class="standorte" id="standorte" aria-labelledby="standorte-title">
+      <h2 class="h2" id="standorte-title" data-reveal>Unsere Standorte</h2>
+      <div class="places">
+        {
+          locations.map((loc) => (
+            <article class="place" data-reveal>
+              <div class="map" data-map={loc.mapEmbed} data-title={`Karte: ${loc.name}`}>
+                <div class="map__consent">
+                  <EosMark variant="icon" class="map__o" />
+                  <p>
+                    Beim Laden der Karte werden Daten an Google übertragen. Mehr dazu in der{' '}
+                    <a href="/datenschutzerklaerung">Datenschutzerklärung</a>.
+                  </p>
+                  <p class="map__actions">
+                    <button class="btn btn--primary btn--sm" type="button" data-map-load>
+                      Karte laden
+                    </button>
+                    <a href={loc.mapLink} target="_blank" rel="noopener">
+                      In Google Maps öffnen
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <div class="place__text">
+                <h3 class="h3">{loc.name}</h3>
+                <p>
+                  {loc.street}
+                  <br />
+                  {loc.zip}
+                </p>
+              </div>
+            </article>
+          ))
+        }
+        <article class="place place--soon" data-reveal>
+          <EosMark variant="icon" class="place__o" />
+          <div class="place__text">
+            <h3 class="h3">{gelnhausen.title}</h3>
+            <p>{gelnhausen.text}</p>
+          </div>
+        </article>
+      </div>
+    </section>
+</SiteLayout>

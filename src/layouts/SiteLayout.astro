@@ -1,0 +1,65 @@
+---
+// Layout aller Seiten im Design „Entwurf F“ (freigegeben 13.11.2026):
+// Kopf, Footer und Seitenpanel für „Mehr erfahren“/„Häufige Fragen“.
+import '@fontsource-variable/montserrat';
+import '../styles/base.css';
+import '../styles/site.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { site } from '../data/site';
+
+interface Props {
+  /** Seitenname, wird zu „Seitenname – EOS GmbH – Kinder- und Jugendhilfe“ */
+  title?: string;
+  /** Vollständiger Seitentitel (Startseite) */
+  fullTitle?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const { title, description = site.description, noindex = false } = Astro.props;
+const fullTitle = Astro.props.fullTitle ?? (title ? `${title} – ${site.name}` : site.name);
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="icon" href="/icon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="de_DE" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <div class="f">
+      <SiteHeader />
+      <main id="inhalt">
+        <slot />
+      </main>
+      <SiteFooter />
+
+      <dialog class="drawer" aria-labelledby="drawer-title" data-drawer>
+        <div class="drawer__head">
+          <h3 class="h3" id="drawer-title" data-drawer-title></h3>
+          <button class="drawer__close" type="button" data-drawer-close aria-label="Schließen">×</button>
+        </div>
+        <div class="drawer__body" data-drawer-body></div>
+      </dialog>
+    </div>
+
+    <script>
+      import '../scripts/site';
+      import '../scripts/protect';
+    </script>
+  </body>
+</html>

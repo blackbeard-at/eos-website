@@ -1,5 +1,7 @@
 ---
-import BaseLayout from './BaseLayout.astro';
+// Rechtstexte (Impressum, Datenschutz) im Design der Website.
+// <!--EMAIL--> im Text wird zur geschützten Adresse (kein Klartext im HTML).
+import SiteLayout from './SiteLayout.astro';
 import Mail from '../components/Mail.astro';
 import { site } from '../data/site';
 
@@ -9,51 +11,24 @@ interface Props {
 }
 
 const { title, html } = Astro.props;
-// <!--EMAIL--> im Rechtstext wird zur geschützten Adresse (kein Klartext im HTML)
-const parts = html.split('<!--EMAIL-->');
+// Überschrift steht schon im Seitenkopf: gleichlautende erste Überschrift weglassen
+const body = html.replace(new RegExp(`^\\s*<h3>${title}</h3>\\s*`), '');
+const parts = body.split('<!--EMAIL-->');
 ---
 
-<BaseLayout title={title}>
+<SiteLayout title={title}>
+  <section class="page-head page-head--legal">
+    <p class="chip hero-in" style="--d:0"><span class="dawn-dot" aria-hidden="true"></span>Rechtliches</p>
+    <h1 class="h2 hero-in" style="--d:1">{title}</h1>
+  </section>
   <article class="legal">
-    <div class="container legal__inner">
-      {
-        parts.map((part, i) => (
-          <>
-            {i > 0 && <Mail email={site.email} />}
-            <Fragment set:html={part} />
-          </>
-        ))
-      }
-    </div>
+    {
+      parts.map((part, i) => (
+        <>
+          {i > 0 && <Mail email={site.email} />}
+          <Fragment set:html={part} />
+        </>
+      ))
+    }
   </article>
-</BaseLayout>
-
-<style>
-  .legal {
-    padding: 36px 0 var(--s3);
-    background: var(--bg);
-  }
-
-  .legal__inner :global(h1),
-  .legal__inner :global(h2),
-  .legal__inner :global(h3) {
-    margin: 54px 0 0;
-    font-size: var(--h3);
-  }
-
-  .legal__inner :global(h4),
-  .legal__inner :global(h5),
-  .legal__inner :global(h6) {
-    margin: 36px 0 0;
-    font-size: var(--h5);
-  }
-
-  .legal__inner :global(:first-child) { margin-top: 0; }
-
-  .legal__inner :global(ul),
-  .legal__inner :global(ol) { margin: 18px 0 0; padding-left: 1.2em; }
-
-  .legal__inner :global(a) { overflow-wrap: anywhere; }
-
-  .legal__inner :global(a:hover) { color: var(--accent); }
-</style>
+</SiteLayout>
